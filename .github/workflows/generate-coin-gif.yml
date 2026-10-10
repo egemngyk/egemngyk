@@ -1,0 +1,45 @@
+
+name: Generate Coin GIF
+
+on:
+  push:
+    paths:
+      - "source.png"
+      - "scripts/generate_coin_gif.py"
+      - "requirements.txt"
+      - ".github/workflows/generate-coin-gif.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Generate images
+        run: python scripts/generate_coin_gif.py
+
+      - name: Commit generated assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/circle.png assets/coin-spin.gif
+          if ! git diff --cached --quiet; then
+            git commit -m "Update generated coin GIF"
+            git push
+          else
+            echo "Generated assets are already up to date."
+          fi
