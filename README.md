@@ -15,11 +15,3 @@
   &nbsp;·&nbsp;
   <code>exit 0</code>
 </p>
-
-<br>
-
-<h6 align="center">
-  <em>"en yakın dost" fa</em>
-  <br>
-  <sub>— celal</sub>
-</h6>
